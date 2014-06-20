@@ -16,7 +16,7 @@
 		<prudent>true</prudent>
 	</appender>
 	
-	<logger name="hello.controller" level="DEBUG">  
+	<logger name="hello" level="DEBUG">  
         <appender-ref ref="FILE" />  
     </logger>  
 

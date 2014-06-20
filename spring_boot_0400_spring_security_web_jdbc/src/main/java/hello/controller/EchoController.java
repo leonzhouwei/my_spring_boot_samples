@@ -9,12 +9,12 @@ import org.springframework.web.servlet.ModelAndView;
   
 @Controller
 @RequestMapping("/echo")
-public class EchoController {  
+public class EchoController {
 	private static final Logger logger = LoggerFactory.getLogger(EchoController.class);
 
     @RequestMapping("/{id}")  
-    public ModelAndView echo(@PathVariable("id") String id) {  
-    	logger.info("oops: in EchoController.echo() now");
+    public ModelAndView echo(@PathVariable("id") String id) {
+    	logger.debug(id);
         ModelAndView mav = new ModelAndView();  
         mav.setViewName("echo");  
         mav.addObject("message", "Hello " + id + " !");  
