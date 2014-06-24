@@ -11,7 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class EchoController {  
 
     @RequestMapping("/{id}")
-    @Secured({"ROLE_USER"})
+    @Secured("ROLE_USER")
     public ModelAndView echo(@PathVariable("id") String id) {  
         System.out.println("oops: in EchoController.echo() now");
         ModelAndView mav = new ModelAndView();  
