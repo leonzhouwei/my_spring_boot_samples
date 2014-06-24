@@ -19,15 +19,20 @@ package sample.ui.method;
 import java.util.Date;
 import java.util.Map;
 
+import javax.annotation.Resource;
+import javax.sql.DataSource;
+
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.ImportResource;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configurers.GlobalAuthenticationConfigurerAdapter;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -77,21 +82,27 @@ public class SampleMethodSecurityApplication extends WebMvcConfigurerAdapter {
 	@Configuration
 	protected static class AuthenticationSecurity extends
 			GlobalAuthenticationConfigurerAdapter {
+		@Resource
+		private DataSource dataSource;
 
 		@Override
 		public void init(AuthenticationManagerBuilder auth) throws Exception {
-			// @formatter:off
-			auth.
-				inMemoryAuthentication()
-					.withUser("admin")
-						.password("admin").roles("ADMIN", "USER")
-					.and()
-					.withUser("user")
-						.password("user").roles("USER")
-					.and()
-					.withUser("alice")
-						.password("alice").roles("GUEST");
-			// @formatter:on
+//			auth.
+//				inMemoryAuthentication()
+//					.withUser("admin")
+//						.password("admin").roles("ADMIN", "USER")
+//					.and()
+//					.withUser("user")
+//						.password("user").roles("USER")
+//					.and()
+//					.withUser("alice")
+//						.password("alice").roles("USER");
+		    auth
+		    	.jdbcAuthentication()
+		    		.passwordEncoder(new Md5PasswordEncoder())
+		    		.dataSource(dataSource)
+		    			.usersByUsernameQuery("select username,password,enabled from users where username = ?")
+		    			.authoritiesByUsernameQuery("select username,authority from authorities where username = ?");
 		}
 	}
 
@@ -111,4 +122,9 @@ public class SampleMethodSecurityApplication extends WebMvcConfigurerAdapter {
 
 	}
 
+}
+
+@Configuration
+@ImportResource("/appCtx.xml")
+class XmlImportingConfiguration {
 }
