@@ -87,6 +87,8 @@ public class SampleMethodSecurityApplication extends WebMvcConfigurerAdapter {
 //		    			.authoritiesByUsernameQuery("select username,authority from authorities where username = ?");
 			
 			JdbcUserDetailsManager userDetailsService = new JdbcUserDetailsManager();
+			userDetailsService.setEnableAuthorities(false);
+			userDetailsService.setEnableGroups(true);
 	        userDetailsService.setDataSource(dataSource);
 	        auth.userDetailsService(userDetailsService).passwordEncoder(new Md5PasswordEncoder());
 	        auth.jdbcAuthentication().dataSource(dataSource);
