@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>github.com.leonzhouwei.java.microservice</groupId>
-	<artifactId>spring_boot_0500_spring_security_web_customize</artifactId>
+	<artifactId>spring_boot_0500_spring_security_default</artifactId>
 	<version>0.1.0</version>
 
 	<parent>
