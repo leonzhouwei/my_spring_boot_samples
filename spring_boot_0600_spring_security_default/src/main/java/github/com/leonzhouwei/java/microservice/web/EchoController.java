@@ -3,6 +3,8 @@ package github.com.leonzhouwei.java.microservice.web;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,8 +32,19 @@ public class EchoController {
         logger.info("oops: in EchoController.echo() now");
         ModelAndView mav = new ModelAndView();  
         mav.setViewName("echo");  
-        mav.addObject("message", "Hello " + id + " !");  
+        mav.addObject("message", id + " from " + getUserName());  
         return mav;  
+    }
+    
+    private String getUserName() {
+    	String username = null;
+    	Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    	if (principal instanceof UserDetails) {
+    		username = ((UserDetails)principal).getUsername();
+    	} else {
+    		username = principal.toString();
+    	}
+    	return username;
     }
 
 }  
