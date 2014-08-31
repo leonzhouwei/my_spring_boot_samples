@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
   
 @Controller
@@ -24,7 +25,7 @@ public class EchoController {
         return mav;  
     }
 
-    @RequestMapping("/{id}")
+    @RequestMapping(value="/{id}", method=RequestMethod.GET)
     @Secured("ROLE_USER")
     public ModelAndView echo(@PathVariable("id") String id) {  
         System.out.println("oops: in EchoController.echo() now");
