@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class HomeController {
 
 	@RequestMapping("/")
-	@Secured("ROLE_ADMIN")
+	@Secured("ROLE_USER")
 	public String home(Map<String, Object> model) {
 		model.put("message", "Hello World");
 		model.put("title", "Hello Home");

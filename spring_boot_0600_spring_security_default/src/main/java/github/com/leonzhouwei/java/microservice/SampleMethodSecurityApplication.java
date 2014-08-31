@@ -19,9 +19,9 @@ package github.com.leonzhouwei.java.microservice;
 import javax.annotation.Resource;
 import javax.sql.DataSource;
 
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
-import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -45,7 +45,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 public class SampleMethodSecurityApplication extends WebMvcConfigurerAdapter {
 
 	public static void main(String[] args) throws Exception {
-		new SpringApplicationBuilder(SampleMethodSecurityApplication.class).run(args);
+		SpringApplication.run(SampleMethodSecurityApplication.class);
 	}
 
 	@Override
