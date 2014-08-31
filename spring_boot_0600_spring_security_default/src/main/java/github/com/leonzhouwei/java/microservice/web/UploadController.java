@@ -26,6 +26,17 @@ public class UploadController {
         return mav;  
     }
     
+    @RequestMapping(value="/uploadByPutInPost", method=RequestMethod.PUT)
+    @Secured("ROLE_USER")
+    public ModelAndView uploadByPutInPost() {  
+    	String ret = "received HTTP PUT wrapped in POST from user " + getUserName();
+    	logger.debug(ret);
+        ModelAndView mav = new ModelAndView();  
+        mav.setViewName("upload");  
+        mav.addObject("message", ret);  
+        return mav;  
+    }
+    
     private String getUserName() {
     	String username = null;
     	Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
