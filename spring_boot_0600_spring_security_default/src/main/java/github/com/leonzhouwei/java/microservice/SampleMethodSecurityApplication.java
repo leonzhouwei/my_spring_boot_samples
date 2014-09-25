@@ -16,9 +16,19 @@
 
 package github.com.leonzhouwei.java.microservice;
 
+import java.io.IOException;
+
 import javax.annotation.Resource;
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.sql.DataSource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
@@ -43,6 +53,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @ComponentScan
 @EnableGlobalMethodSecurity(securedEnabled = true)
 public class SampleMethodSecurityApplication extends WebMvcConfigurerAdapter {
+	private static final Logger logger = LoggerFactory.getLogger(SampleMethodSecurityApplication.class);
 
 	public static void main(String[] args) throws Exception {
 		SpringApplication.run(SampleMethodSecurityApplication.class);
@@ -108,7 +119,31 @@ public class SampleMethodSecurityApplication extends WebMvcConfigurerAdapter {
 					.exceptionHandling().accessDeniedPage("/access?error");
 			// @formatter:on
 		}
+	}
+	
+	@Bean
+	public Filter compressingFilter() {
+	    return new Filter() {
 
+			@Override
+			public void destroy() {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void doFilter(ServletRequest request, ServletResponse response,
+					FilterChain fc) throws IOException, ServletException {
+				logger.info(" local: " + request.getLocalName() + ", " + request.getLocalAddr() + ", " +  request.getLocalPort());
+				logger.info("remote: " + request.getRemoteHost() + ", " + request.getRemoteAddr() + ", " +  request.getRemotePort());
+				fc.doFilter(request, response);
+			}
+
+			@Override
+			public void init(FilterConfig arg0) throws ServletException {
+				// TODO Auto-generated method stub
+				
+			}};
 	}
 
 }
